@@ -1,0 +1,360 @@
+// ==========================================
+// КЛЮЧЕВЫЕ КАДРЫ (KEYFRAMES) ДЛЯ АНИМАЦИЙ
+// ==========================================
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+// ==========================================
+// ОСНОВНЫЕ СТИЛИ
+// ==========================================
+
+.promo {
+  display: flex;
+  flex-direction: column;
+}
+
+.banner-main {
+  position: relative;
+  width: 100%;
+  min-height: 462px;
+  background-color: var(--color-dark-blue);
+  border-radius: var(--border-radius-banner);
+  padding: 60px;
+  color: var(--color-light);
+  overflow: hidden; 
+  display: flex;
+  align-items: center;
+
+  // Анимация появления самого баннера
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+
+  @include mobile {
+    padding: 40px 20px;
+    min-height: auto;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px; 
+  }
+
+  &__title {
+    font-family: var(--font-family-base);
+    @include fluid-text(70, 32); 
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    
+    // Анимация заголовка
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  }
+
+  &__text {
+    font-family: var(--font-family-base);
+    @include fluid-text(20, 16);
+    margin-bottom: 35px;
+    opacity: 0;
+    max-width: 550px;
+
+    // Анимация текста
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+  }
+
+  &__decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__flower {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%; 
+    width: auto;
+    object-fit: contain;
+    object-position: top right;
+    opacity: 0.4;
+
+    // Бесконечная плавная анимация парения
+    animation: float 8s ease-in-out infinite;
+  }
+
+  &__people {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%; 
+    width: auto;
+    object-fit: contain;
+    object-position: bottom right; 
+    z-index: 2;
+
+    // Анимация выезда людей справа
+    opacity: 0;
+    animation: slideInRight 1s ease-out 0.5s forwards;
+
+    @include tablet {
+      opacity: 0;
+      animation: slideInRight 1s ease-out 0.5s forwards;
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+// Хак для планшетов
+@include tablet {
+  .banner-main__people {
+    animation-name: slideInRightTablet;
+  }
+  @keyframes slideInRightTablet {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 0.3; transform: translateX(0); }
+  }
+}
+
+// Кнопка "Подробнее"
+.button-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  
+  width: 199px; 
+  height: 55px;
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  border-radius: 30px;
+  
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  // Анимация появления кнопки
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+
+  @include mobile {
+    width: 170px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  @include hover {
+    gap: 20px;
+    background-color: var(--color-blue);
+    
+    .button-more__icon {
+      transform: translateX(5px);
+    }
+  }
+}
+
+// Сетка блоков
+.promo__grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  gap: 23px;
+  margin-top: 23px;
+  position: relative;
+  z-index: 20;
+
+  @include tablet {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 20px;
+  }
+}
+
+.card-info {
+  position: relative;
+  background-color: var(--color-blue);
+  border-radius: var(--border-radius-block);
+  padding: 30px;
+  flex: 1;
+  min-height: 160px;
+  font-family: var(--font-family-accent);
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  // Анимация появления карточек и эффект при наведении
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  // Каскадная задержка появления для 1, 2 и 3 карточки
+  &:nth-child(1) { animation-delay: 0.8s; }
+  &:nth-child(2) { animation-delay: 1.0s; }
+  &:nth-child(3) { animation-delay: 1.2s; }
+
+  // Легкий эффект поднятия при наведении мыши
+  @include hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  @include mobile {
+    padding: 25px 20px;
+    min-height: 140px;
+  }
+
+  &__content {
+    margin: 0;
+    display: block;
+  }
+
+  &--accent {
+    background-color: #DDEEFA;
+    margin-top: -55px; 
+    min-height: 215px; 
+    max-width: 408px;
+
+    // Корректировка ховера для акцентной карточки
+    @include hover {
+      transform: translateY(-5px);
+    }
+
+    .card-info__content {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .card-info__number { 
+      @include fluid-text(65, 40); 
+      margin-bottom: 6px; 
+    }
+    
+    .card-info__desc { 
+      @include fluid-text(32, 20);
+      white-space: nowrap; 
+    }
+
+    .card-info__icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    @include tablet {
+      margin-top: 0;
+      min-height: 160px;
+      max-width: 100%;
+
+      .card-info__number {
+        @include fluid-text(50, 36);
+        margin-bottom: 10px; 
+      }
+
+      .card-info__desc {
+        @include fluid-text(24, 18);
+        white-space: normal;
+      }
+
+      .card-info__icon {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    @include mobile {
+      min-height: 140px;
+      .card-info__icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  &__number {
+    display: block;
+    font-weight: 700;
+    @include fluid-text(50, 36);
+    color: var(--color-dark);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  &__desc {
+    font-weight: 500;
+    @include fluid-text(24, 18);
+    color: var(--color-dark);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    transition: transform 0.4s ease; // Анимация иконки
+
+    @include mobile {
+        top: 20px;
+        right: 20px;
+        width: 24px;
+        height: 24px;
+    }
+  }
+  
+  // При наведении на карточку иконка слегка крутится/увеличивается
+  @include hover {
+    .card-info__icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+}

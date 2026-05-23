@@ -1,0 +1,56 @@
+<% const isAuthHeader = typeof authHeader !== 'undefined' && authHeader; %>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="/" class="header__logo logo">
+        <img src="/images/logo.svg" alt="ЖКХ Кличев" class="logo__image" width="219" height="70">
+      </a>
+
+      <% if (!isAuthHeader) { %>
+        <button class="header__burger burger-button" type="button" aria-label="Открыть меню">
+          <img src="/images/icons/List.svg" alt="" class="burger-button__icon">
+        </button>
+
+        <div class="header__search-wrap">
+          <form class="header__search search-form" action="/map" method="get">
+            <button class="search-form__button" type="button" aria-label="Найти">
+              <img src="/images/icons/Search.svg" alt="">
+            </button>
+            <input
+              class="search-form__input"
+              type="search"
+              name="q"
+              placeholder="Поиск объектов..."
+              autocomplete="off"
+              aria-controls="header-search-results"
+              aria-expanded="false"
+            >
+          </form>
+          <div class="header-search-results sidebar-search-results" id="header-search-results"></div>
+        </div>
+        <script type="module" src="/js/header-search.js"></script>
+      <% } %>
+
+      <div class="header__actions actions">
+        <a href="/map" class="actions__btn icon-button" title="Интерактивная карта">
+          <img src="/images/icons/GeoAltFill.svg" alt="" class="icon-button__icon">
+        </a>
+
+        <a href="/user-guide" class="actions__btn icon-button" title="Руководство пользователя">
+          <img src="/images/icons/JournalBookmarkFill.svg" alt="" class="icon-button__icon">
+        </a>
+
+        <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+          <a href="/profile" class="actions__btn icon-button" title="Личный кабинет">
+            <img src="/images/icons/PersonFill.svg" alt="" class="icon-button__icon">
+          </a>
+        <% } else { %>
+          <a href="/login" class="actions__btn icon-button" title="Вход в личный кабинет">
+            <img src="/images/icons/PersonFill.svg" alt="" class="icon-button__icon">
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>

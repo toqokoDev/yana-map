@@ -1,0 +1,144 @@
+// ==========================================
+// ОСНОВНЫЕ СТИЛИ ФУТЕРА
+// ==========================================
+
+.footer {
+  background-color: #053479;
+  color: #fff;
+  padding: 160px 0 60px;
+
+  @include tablet {
+    padding: 100px 0 40px;
+  }
+
+  // ==========================================
+  // ВНУТРЕННИЙ КОНТЕЙНЕР
+  // ==========================================
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+
+    @include tablet {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  // ==========================================
+  // ИНФОРМАЦИОННЫЙ БЛОК
+  // ==========================================
+  &__info {
+    max-width: 650px;
+  }
+
+  // ==========================================
+  // ЗАГОЛОВОК
+  // ==========================================
+  &__title {
+    font-family: var(--font-family-base);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.4;
+    margin-bottom: 25px;
+    color: #fff;
+    opacity: 0.9;
+    
+    @include tablet { 
+      font-size: 18px; 
+    }
+  }
+
+  // ==========================================
+  // СПИСОК КОНТАКТОВ
+  // ==========================================
+  &__contacts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  // ==========================================
+  // ЭЛЕМЕНТ КОНТАКТА
+  // ==========================================
+  &__contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    color: #fff;
+    opacity: 0.8;
+    
+    @include tablet { 
+      font-size: 16px; 
+    }
+
+    // ==========================================
+    // ССЫЛКА В КОНТАКТЕ
+    // ==========================================
+    a {
+      color: #fff;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+
+      @include hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+    }
+    
+    span {
+      line-height: 1.3;
+    }
+  }
+
+  // ==========================================
+  // ИКОНКА КОНТАКТА
+  // ==========================================
+  &__icon {
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+}
+
+// ==========================================
+// МОДИФИКАЦИИ ДЛЯ ОТДЕЛЬНЫХ СТРАНИЦ
+// ==========================================
+
+.map-page {
+  .footer {
+    padding-top: 60px;
+    
+    @include tablet {
+      padding-top: 40px;
+    }
+  }
+}
+
+.guide-page {
+  .footer {
+    padding-top: 60px;
+    
+    @include tablet {
+      padding-top: 40px;
+    }
+  }
+}
+
+.map-page .footer,
+.user-guide-page .footer {
+  padding-top: 80px;
+
+  @include tablet {
+    padding-top: 60px;
+  }
+
+  @include mobile {
+    padding-top: 40px;
+  }
+}

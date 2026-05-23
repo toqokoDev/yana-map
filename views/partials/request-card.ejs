@@ -1,0 +1,24 @@
+<article
+  class="request-item request-item--viewable"
+  <% if (request.cardData) { %>
+    data-request-json="<%= request.cardData %>"
+  <% } %>
+>
+  <div class="request-item__top">
+    <h4><%= request.title %></h4>
+    <span class="request-status request-status--<%= request.status %>">
+      <% if (request.status === 'new') { %>Новая<% } %>
+      <% if (request.status === 'in_progress') { %>В работе<% } %>
+      <% if (request.status === 'done') { %>Выполнена<% } %>
+      <% if (request.status === 'rejected') { %>Отклонена<% } %>
+    </span>
+  </div>
+  <p><%= request.description %></p>
+  <% if (request.address) { %>
+    <span class="request-item__meta">Адрес: <%= request.address %></span>
+  <% } %>
+  <span class="request-item__date"><%= new Date(request.created_at).toLocaleDateString('ru-RU') %></span>
+  <div class="request-item__actions">
+    <button class="request-item__button" type="button" data-request-view-id="<%= request.id %>">Просмотреть</button>
+  </div>
+</article>

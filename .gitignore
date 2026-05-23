@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# User uploads (keep directory via .gitkeep)
+uploads/requests/*
+!uploads/requests/.gitkeep
+
+# Logs & debug
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime & coverage
+pids/
+*.pid
+*.seed
+coverage/
+.nyc_output/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor (optional local overrides)
+.idea/
+*.swp
+*.swo
+*~

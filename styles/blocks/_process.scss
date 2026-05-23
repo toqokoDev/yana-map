@@ -1,0 +1,245 @@
+// ==========================================
+// КЛЮЧЕВЫЕ КАДРЫ (KEYFRAMES)
+// ==========================================
+
+@keyframes fadeInUpProcess {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRightProcess {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ==========================================
+// ОСНОВНЫЕ СТИЛИ
+// ==========================================
+
+.process {
+  margin-top: 58px;
+  padding-bottom: 0px;
+
+  @include tablet {
+    padding-bottom: 0px;
+  }
+
+  &__inner {
+    position: relative;
+    @include tablet {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    @include fluid-text(70, 36);
+    line-height: 1.1;
+    color: var(--color-dark);
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 3;
+    
+    // Исходно скрыто
+    opacity: 0;
+
+    @include tablet {
+      margin-bottom: 30px;
+      order: 1;
+    }
+  }
+
+  &__steps {
+    position: relative;
+    z-index: 2;
+
+    @include tablet {
+      order: 2;
+      margin-bottom: 40px;
+    }
+  }
+
+  &__bg-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 697px;
+    height: 447px;
+    object-fit: contain;
+    object-position: right top;
+    z-index: 1;
+    pointer-events: none;
+    
+    // Исходно скрыто
+    opacity: 0;
+
+    @include tablet {
+      position: relative;
+      width: 100%;
+      height: auto;
+      max-width: 400px;
+      margin: 0 auto; 
+      order: 3;
+    }
+  }
+
+  &__grid {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 84px;
+
+    @include tablet {
+      gap: 35px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    
+    @include tablet {
+      flex-direction: column;
+      gap: 35px;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    position: relative;
+    z-index: 2;
+    
+    // Исходно скрыто
+    opacity: 0;
+  }
+
+  &__circle {
+    @include flex-center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-blue);
+    color: #fff;
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    font-size: 32px;
+    flex-shrink: 0;
+    position: relative;
+    transition: background-color 0.8s ease;
+    animation: stepHighlight 15s infinite;
+
+    @include tablet {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+  }
+
+  &__item--1 .process__circle { animation-delay: 0s; }
+  &__item--2 .process__circle { animation-delay: 3s; }
+  &__item--3 .process__circle { animation-delay: 6s; }
+  &__item--4 .process__circle { animation-delay: 9s; }
+  &__item--5 .process__circle { animation-delay: 12s; }
+
+  &__text {
+    font-family: var(--font-family-base);
+    @include fluid-text(32, 20);
+    color: var(--color-dark);
+    line-height: 1.2;
+    background: #fff;
+    padding-right: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    pointer-events: none;
+    
+    opacity: 0;
+    transition: opacity 1s ease-in 1.2s;
+
+    &--desktop {
+      height: 348px;
+      @include tablet { display: none; }
+    }
+
+    &--mobile {
+      display: none;
+      
+      @include tablet {
+        display: block;
+        top: 20px;
+        left: 0;
+        width: 40px;
+        height: calc(100% - 40px); 
+      }
+    }
+  }
+
+  &__line-path {
+    stroke: var(--color-accent);
+    stroke-width: 3;
+    stroke-dasharray: 10 10;
+    fill: none;
+    animation: lineFlow 1s linear infinite;
+  }
+
+  // ==========================================
+  // ТРИГГЕР АНИМАЦИИ (is-visible)
+  // ==========================================
+  
+  &.is-visible {
+    .process__title {
+      animation: fadeInUpProcess 0.8s ease-out forwards;
+    }
+
+    .process__bg-image {
+      animation: fadeInUpProcess 1s ease-out 0.2s forwards;
+    }
+
+    .process__svg {
+      opacity: 1;
+    }
+
+    .process__item {
+      animation: fadeInUpProcess 0.6s ease-out forwards;
+      
+      &--1 { animation-delay: 0.4s; }
+      &--2 { animation-delay: 0.6s; }
+      &--3 { animation-delay: 0.8s; }
+      &--4 { animation-delay: 1.0s; }
+      &--5 { animation-delay: 1.2s; }
+    }
+  }
+}
+
+@keyframes lineFlow {
+  to { stroke-dashoffset: -20; }
+}
+
+@keyframes stepHighlight {
+  0%, 19% { background-color: var(--color-light-blue); }
+  20%, 100% { background-color: var(--color-blue); }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <title><%= pageTitle %> - ЖКХ Кличев</title>
+</head>
+<body class="auth-page">
+  <%- include('partials/header', { authHeader: true, currentUser: typeof currentUser !== 'undefined' ? currentUser : null }) %>
+
+  <main class="auth-main container">
+    <section class="auth-card">
+      <h1 class="auth-card__title">Вход</h1>
+      <p class="auth-card__text">Введите email пользователя и пароль.</p>
+
+      <% if (info) { %>
+        <p class="auth-card__text"><%= info %></p>
+      <% } %>
+
+      <% if (error) { %>
+        <p class="auth-card__error"><%= error %></p>
+      <% } %>
+
+      <form class="auth-form" action="/login" method="post">
+        <input type="hidden" name="returnTo" value="<%= typeof returnTo !== 'undefined' ? returnTo : '/profile' %>">
+        <label class="auth-form__label">
+          Логин
+          <input class="auth-form__input" type="text" name="email" value="<%= email || '' %>" required>
+        </label>
+
+        <label class="auth-form__label">
+          Пароль
+          <input class="auth-form__input" type="password" name="password" required>
+        </label>
+
+        <button class="auth-form__button" type="submit">Войти</button>
+      </form>
+
+      <p class="auth-card__link">Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+    </section>
+  </main>
+</body>
+</html>

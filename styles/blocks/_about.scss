@@ -1,0 +1,181 @@
+// ==========================================
+// КЛЮЧЕВЫЕ КАДРЫ (KEYFRAMES) ДЛЯ ABOUT
+// ==========================================
+
+@keyframes fadeInUpAbout {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDecor {
+  from {
+    opacity: 0;
+    transform: translate(50px, 50px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+// ==========================================
+// ОСНОВНЫЕ СТИЛИ
+// ==========================================
+
+.about {
+  margin-top: 23px;
+
+  &__inner {
+    position: relative;
+    width: 100%;
+    min-height: 450px;
+    background-color: var(--color-gray);
+    border-radius: var(--border-radius-banner);
+    padding: 60px;
+    overflow: hidden;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    // Исходно скрыто, ждет скролла
+    opacity: 0; 
+
+    @include tablet {
+      padding: 40px 30px;
+      min-height: auto;
+      justify-content: flex-start;
+    }
+
+    @include mobile {
+      padding: 30px 20px;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-family-base);
+    @include fluid-text(55, 28);
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+
+    // Исходно скрыто
+    opacity: 0; 
+
+    @include mobile {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1000px; 
+    
+    display: flex;
+    flex-direction: column;
+    gap: 25px; 
+    
+    @include tablet {
+      max-width: 100%;
+      gap: 20px;
+    }
+  }
+
+  &__text {
+    font-family: var(--font-family-base);
+    @include fluid-text(32, 18);
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-dark);
+    margin: 0;
+
+    // Исходно скрыто
+    opacity: 0; 
+  }
+
+  &__link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    transition: opacity 0.3s ease, color 0.3s ease;
+
+    @include hover {
+      opacity: 0.7;
+      color: var(--color-blue); 
+    }
+  }
+
+  &__decor {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 1;
+    width: auto;
+    max-height: 300px;
+
+    // Исходно скрыто
+    opacity: 0; 
+
+    @include tablet {
+      width: 200px;
+    }
+  }
+
+  // ==========================================
+  // ТРИГГЕР АНИМАЦИИ ПО СКРОЛЛУ
+  // Этот класс добавляется через JavaScript
+  // ==========================================
+  &.is-visible {
+    .about__inner {
+      animation: fadeInUpAbout 0.8s ease-out forwards;
+    }
+
+    .about__title {
+      animation: fadeInUpAbout 0.8s ease-out 0.2s forwards;
+    }
+
+    .about__text {
+      animation: fadeInUpAbout 0.8s ease-out forwards;
+      
+      &:nth-child(1) {
+        animation-delay: 0.4s;
+      }
+      
+      &:nth-child(2) {
+        animation-delay: 0.6s;
+      }
+    }
+
+    .about__decor {
+      animation: slideInDecor 1s ease-out 0.6s forwards;
+
+      @include tablet {
+        animation-name: slideInDecorTablet;
+      }
+    }
+  }
+}
+
+// Хак для планшета
+@include tablet {
+  @keyframes slideInDecorTablet {
+    from {
+      opacity: 0;
+      transform: translate(50px, 50px);
+    }
+    to {
+      opacity: 0.4;
+      transform: translate(0, 0);
+    }
+  }
+}

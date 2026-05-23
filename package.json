@@ -1,0 +1,25 @@
+{
+  "name": "karta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "db:seed": "node scripts/import-map-data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "express-mysql-session": "^3.0.3",
+    "express-session": "^1.19.0",
+    "multer": "^2.1.1",
+    "mysql2": "^3.22.3"
+  }
+}

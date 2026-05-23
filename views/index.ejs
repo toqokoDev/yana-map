@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <script type="module" src="/js/pages/index.js"></script>
+  <title>ЖКХ Кличев - Главная страница</title>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main>
+    <section class="promo container">
+      <div class="banner-main">
+        <div class="banner-main__content">
+          <h1 class="banner-main__title">Наш город — <br> в одном приложении</h1>
+          <p class="banner-main__text">
+            Интерактивная карта Кличева с объектами городской инфраструктуры и зелеными зонами.<br>
+            Сообщайте о проблемах на территории или оставляйте заявки на обслуживание онлайн.
+          </p>
+          <a href="#" class="banner-main__button button-more">
+            <span>Подробнее</span>
+            <svg class="button-more__icon" width="30" height="30">
+              <use href="/images/icons/arowright.svg"></use>
+            </svg>
+          </a>
+        </div>
+
+        <div class="banner-main__decor">
+          <img src="/images/flower-bg.svg" alt="" class="banner-main__flower">
+          <img src="/images/people.svg" alt="" class="banner-main__people">
+        </div>
+      </div>
+
+      <div class="promo__grid">
+        <div class="promo__item card-info">
+          <div class="card-info__content">
+            <span class="card-info__number">2 500+</span>
+            <p class="card-info__desc">Лицевых счетов</p>
+          </div>
+          <img src="/images/icons/mail-icon.svg" alt="" class="card-info__icon">
+        </div>
+
+        <div class="promo__item card-info card-info--accent">
+          <div class="card-info__content">
+            <span class="card-info__number">115</span>
+            <p class="card-info__desc">Единая диспетчерская</p>
+          </div>
+          <img src="/images/icons/phone-icon.svg" alt="" class="card-info__icon">
+        </div>
+
+        <div class="promo__item card-info">
+          <div class="card-info__content">
+            <span class="card-info__number">12 лет</span>
+            <p class="card-info__desc">Надежного обслуживания</p>
+          </div>
+          <img src="/images/icons/case-icon.svg" alt="" class="card-info__icon">
+        </div>
+      </div>
+    </section>
+
+    <section class="about container">
+      <div class="about__inner">
+        <h2 class="about__title">Кличевское УКП «Жилкомхоз»</h2>
+
+        <div class="about__content">
+          <p class="about__text">
+            Официальный поставщик коммунальных услуг в районе. Подробнее о тарифах, графиках отключения воды и подготовке к отопительному сезону читайте на нашем официальном сайте
+            <a href="https://klichevjkh.by/" class="about__link" target="_blank">klichevjkh.by</a>.
+          </p>
+
+          <p class="about__text">
+            А для ежедневных мелочей, которые хочется решить без звонков и ожидания, есть приложение. Пара движений с вашей стороны — и вопрос переходит в надёжные руки.
+          </p>
+        </div>
+
+        <img src="/images/decor-stripe.svg" alt="" class="about__decor">
+      </div>
+    </section>
+
+    <section class="process container">
+      <div class="process__inner">
+        <h2 class="process__title">Процесс <br>организации</h2>
+
+        <img src="/images/process-illustration.svg" alt="" class="process__bg-image">
+
+        <div class="process__steps">
+          <svg class="process__svg process__svg--desktop" viewBox="0 0 1200 348" preserveAspectRatio="none" fill="none">
+            <path class="process__line-path" d="M30,30 L30,318 L1200,318" vector-effect="non-scaling-stroke" />
+          </svg>
+
+          <div class="process__grid">
+            <svg class="process__svg process__svg--mobile" fill="none">
+              <line class="process__line-path" x1="50%" y1="0" x2="50%" y2="100%" vector-effect="non-scaling-stroke" />
+            </svg>
+
+            <div class="process__item process__item--1">
+              <div class="process__circle">1</div>
+              <p class="process__text">Подача обращения</p>
+            </div>
+
+            <div class="process__item process__item--2">
+              <div class="process__circle">2</div>
+              <p class="process__text">Назначение исполнителя</p>
+            </div>
+
+            <div class="process__row">
+              <div class="process__item process__item--3">
+                <div class="process__circle">3</div>
+                <p class="process__text">Выполнение работ</p>
+              </div>
+
+              <div class="process__item process__item--4">
+                <div class="process__circle">4</div>
+                <p class="process__text">Контроль качества</p>
+              </div>
+
+              <div class="process__item process__item--5">
+                <div class="process__circle">5</div>
+                <p class="process__text">Закрытие заявки</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-cta container">
+      <div class="map-cta__inner">
+        <h2 class="map-cta__title">СЛЕДИТЕ ЗА ИЗМЕНЕНИЯМИ В РЕАЛЬНОМ ВРЕМЕНИ!</h2>
+        <p class="map-cta__text">
+          ПРОЗРАЧНОСТЬ ЗАЯВОК И ПОЛНАЯ КАРТИНКА ГОРОДА — В ОДНОМ ОКНЕ.
+        </p>
+        <a href="/map" class="map-cta__button">
+          <img src="/images/icons/GeoAltFill.svg" alt="" class="map-cta__button-icon" width="30" height="30">
+          <span class="map-cta__button-text">Открыть интерактивную карту</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

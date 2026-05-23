@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="./styles/styles.css">
+  <title><%= pageTitle %> - ЖКХ Кличев</title>
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <div>
+      <h1>Админ панель</h1>
+    </div>
+    <form action="/admin/logout" method="post">
+      <button class="admin-button admin-button--secondary" type="submit">Выйти</button>
+    </form>
+  </header>
+
+  <main class="admin-main">
+    <% if (message) { %>
+      <p class="admin-alert admin-alert--success"><%= message %></p>
+    <% } %>
+    <% if (error) { %>
+      <p class="admin-alert admin-alert--error"><%= error %></p>
+    <% } %>
+
+    <section class="admin-stats">
+      <article>
+        <span>Точки карты</span>
+        <strong><%= mapObjects.length %></strong>
+      </article>
+      <article>
+        <span>Заявки</span>
+        <strong><%= requests.length %></strong>
+      </article>
+      <article>
+        <span>Категории</span>
+        <strong><%= Object.keys(groupedMapObjects).length %></strong>
+      </article>
+    </section>
+
+    <div class="admin-columns">
+      <section class="admin-card admin-card--points">
+        <div class="admin-card__head">
+          <div>
+            <h2>Точки карты</h2>
+            <span><%= mapObjects.length %> всего</span>
+          </div>
+          <button class="admin-button" type="button" data-admin-modal-open>Добавить точку</button>
+        </div>
+
+        <% if (mapObjects.length === 0) { %>
+          <p class="admin-empty">Точек пока нет.</p>
+        <% } %>
+
+        <% Object.entries(groupedMapObjects).forEach(([category, subcategories]) => { %>
+          <details class="admin-tree" open>
+            <summary><%= category %></summary>
+
+            <% Object.entries(subcategories).forEach(([subcategory, objects]) => { %>
+              <details class="admin-tree__sub" open>
+                <summary><%= subcategory %> <span><%= objects.length %></span></summary>
+
+                <div class="admin-list">
+                  <% objects.forEach((object) => { %>
+                    <article class="admin-compact-row">
+                      <div>
+                        <h3><%= object.title %></h3>
+                        <% if (object.address) { %><span><%= object.address %></span><% } %>
+                      </div>
+                      <button class="admin-eye-button" type="button" data-admin-detail-open="point-<%= object.id %>" aria-label="Открыть точку">👁</button>
+                    </article>
+                  <% }) %>
+                </div>
+              </details>
+            <% }) %>
+          </details>
+        <% }) %>
+      </section>
+
+      <section class="admin-card admin-card--requests">
+        <div class="admin-card__head">
+          <div>
+            <h2>Заявки</h2>
+            <span><%= requests.length %> всего</span>
+          </div>
+        </div>
+
+        <% if (requests.length === 0) { %>
+          <p class="admin-empty">Заявок пока нет.</p>
+        <% } else { %>
+          <div class="admin-list">
+            <% requests.forEach((request) => { %>
+              <article class="admin-compact-row">
+                <div>
+                  <h3><%= request.title %></h3>
+                  <span><%= statusLabels[request.status] || request.status %> · <%= request.author_name || 'Гость' %></span>
+                </div>
+                <button class="admin-eye-button" type="button" data-admin-detail-open="request-<%= request.id %>" aria-label="Открыть заявку">👁</button>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+    </div>
+  </main>
+
+  <div class="admin-modal" data-admin-modal aria-hidden="true">
+    <div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="admin-add-point-title">
+      <button class="admin-modal__close" type="button" data-admin-modal-close aria-label="Закрыть">&times;</button>
+      <h2 id="admin-add-point-title">Добавить точку</h2>
+      <p>Заполните данные новой точки.</p>
+
+      <form class="admin-form" action="/admin/map-objects" method="post">
+        <label>
+          Название
+          <input type="text" name="title" required>
+        </label>
+        <label>
+          Адрес
+          <input type="text" name="address">
+        </label>
+        <label>
+          Категория
+          <select name="category">
+            <option value="">Выберите категорию</option>
+            <% [...new Set(categories.map((item) => item.category))].forEach((category) => { %>
+              <option value="<%= category %>"><%= category %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label>
+          Новая категория
+          <input type="text" name="newCategory" placeholder="Если нужна новая">
+        </label>
+        <label>
+          Подпункт
+          <select name="subcategory">
+            <option value="">Выберите подпункт</option>
+            <% categories.forEach((item) => { %>
+              <option value="<%= item.subcategory %>"><%= item.category %> / <%= item.subcategory %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label>
+          Новый подпункт
+          <input type="text" name="newSubcategory" placeholder="Если нужен новый">
+        </label>
+        <label>
+          Широта
+          <input type="number" name="lat" step="0.0000001" required>
+        </label>
+        <label>
+          Долгота
+          <input type="number" name="lon" step="0.0000001" required>
+        </label>
+        <label class="admin-form__wide">
+          Описание
+          <textarea name="description" rows="3"></textarea>
+        </label>
+        <button class="admin-button admin-form__wide" type="submit">Добавить точку</button>
+      </form>
+    </div>
+  </div>
+
+  <% requests.forEach((request) => { %>
+    <div class="admin-modal" data-admin-detail-modal="request-<%= request.id %>" aria-hidden="true">
+      <div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="request-title-<%= request.id %>">
+        <button class="admin-modal__close" type="button" data-admin-detail-close aria-label="Закрыть">&times;</button>
+        <h2 id="request-title-<%= request.id %>"><%= request.title %></h2>
+        <p><%= request.description %></p>
+
+        <dl class="admin-detail-list">
+          <% if (request.address) { %>
+            <div><dt>Адрес</dt><dd><%= request.address %></dd></div>
+          <% } %>
+          <% if (request.photo_path) { %>
+            <div><dt>Фото</dt><dd><a href="<%= request.photo_path %>" target="_blank" rel="noopener">Открыть</a></dd></div>
+          <% } %>
+          <div><dt>Автор</dt><dd><%= request.author_name || 'Гость' %><% if (request.author_email) { %> (<%= request.author_email %>)<% } %></dd></div>
+          <div><dt>Статус</dt><dd><%= statusLabels[request.status] || request.status %></dd></div>
+          <div><dt>Создана</dt><dd><%= new Date(request.created_at).toLocaleDateString('ru-RU') %></dd></div>
+        </dl>
+
+        <div class="admin-modal-actions">
+          <form action="/admin/requests/<%= request.id %>/status" method="post">
+            <select name="status">
+              <% Object.entries(statusLabels).forEach(([value, label]) => { %>
+                <option value="<%= value %>" <%= request.status === value ? 'selected' : '' %>><%= label %></option>
+              <% }) %>
+            </select>
+            <button class="admin-button" type="submit">Сохранить статус</button>
+          </form>
+          <form id="admin-delete-request-<%= request.id %>" action="/admin/requests/<%= request.id %>/delete" method="post" hidden></form>
+          <button
+            class="admin-button admin-button--danger"
+            type="button"
+            data-admin-delete-open
+            data-admin-delete-form="admin-delete-request-<%= request.id %>"
+            data-admin-delete-kind="request"
+          >Удалить заявку</button>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+
+  <% mapObjects.forEach((object) => { %>
+    <div class="admin-modal" data-admin-detail-modal="point-<%= object.id %>" aria-hidden="true">
+      <div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="point-title-<%= object.id %>">
+        <button class="admin-modal__close" type="button" data-admin-detail-close aria-label="Закрыть">&times;</button>
+        <h2 id="point-title-<%= object.id %>"><%= object.title %></h2>
+        <p><%= object.category %> / <%= object.subcategory %></p>
+
+        <dl class="admin-detail-list">
+          <% if (object.address) { %>
+            <div><dt>Адрес</dt><dd><%= object.address %></dd></div>
+          <% } %>
+          <% if (object.description) { %>
+            <div><dt>Описание</dt><dd><%= object.description %></dd></div>
+          <% } %>
+          <div><dt>Координаты</dt><dd><%= object.lat %>, <%= object.lon %></dd></div>
+        </dl>
+
+        <form class="admin-form admin-form--compact" action="/admin/map-objects/<%= object.id %>/update" method="post" id="map-object-update-<%= object.id %>">
+          <label>
+            Название
+            <input type="text" name="title" value="<%= object.title %>" required>
+          </label>
+          <label>
+            Адрес
+            <input type="text" name="address" value="<%= object.address || '' %>">
+          </label>
+          <label>
+            Категория
+            <select name="category">
+              <% [...new Set(categories.map((item) => item.category))].forEach((categoryOption) => { %>
+                <option value="<%= categoryOption %>" <%= object.category === categoryOption ? 'selected' : '' %>><%= categoryOption %></option>
+              <% }) %>
+            </select>
+          </label>
+          <label>
+            Новая категория
+            <input type="text" name="newCategory" placeholder="Оставьте пустым">
+          </label>
+          <label>
+            Подпункт
+            <select name="subcategory">
+              <% categories.forEach((item) => { %>
+                <option value="<%= item.subcategory %>" <%= object.subcategory === item.subcategory ? 'selected' : '' %>><%= item.category %> / <%= item.subcategory %></option>
+              <% }) %>
+            </select>
+          </label>
+          <label>
+            Новый подпункт
+            <input type="text" name="newSubcategory" placeholder="Оставьте пустым">
+          </label>
+          <label>
+            Широта
+            <input type="number" name="lat" step="0.0000001" value="<%= object.lat %>" required>
+          </label>
+          <label>
+            Долгота
+            <input type="number" name="lon" step="0.0000001" value="<%= object.lon %>" required>
+          </label>
+          <label class="admin-form__wide">
+            Описание
+            <textarea name="description" rows="3"><%= object.description || '' %></textarea>
+          </label>
+        </form>
+
+        <div class="admin-modal-actions">
+          <button class="admin-button" type="submit" form="map-object-update-<%= object.id %>">Сохранить точку</button>
+          <form id="admin-delete-point-<%= object.id %>" action="/admin/map-objects/<%= object.id %>/delete" method="post" hidden></form>
+          <button
+            class="admin-button admin-button--danger"
+            type="button"
+            data-admin-delete-open
+            data-admin-delete-form="admin-delete-point-<%= object.id %>"
+            data-admin-delete-kind="point"
+          >Удалить точку</button>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+
+  <div class="admin-modal admin-delete-modal" id="admin-delete-modal" data-admin-delete-modal aria-hidden="true">
+    <div class="admin-modal__dialog admin-delete-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="admin-delete-modal-title">
+      <button class="admin-modal__close" type="button" data-admin-delete-close aria-label="Закрыть">&times;</button>
+      <h2 id="admin-delete-modal-title">Удалить?</h2>
+      <p id="admin-delete-modal-text">Это действие нельзя отменить.</p>
+      <div class="admin-modal-actions admin-delete-modal__actions">
+        <button class="admin-button admin-button--secondary" type="button" data-admin-delete-cancel>Отмена</button>
+        <button class="admin-button admin-button--danger" type="button" data-admin-delete-confirm>Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const addPointModal = document.querySelector('[data-admin-modal]');
+    const addPointOpenButton = document.querySelector('[data-admin-modal-open]');
+    const addPointCloseButton = document.querySelector('[data-admin-modal-close]');
+    const deleteModal = document.querySelector('[data-admin-delete-modal]');
+    const deleteTitle = document.getElementById('admin-delete-modal-title');
+    const deleteText = document.getElementById('admin-delete-modal-text');
+    const deleteConfirmButton = document.querySelector('[data-admin-delete-confirm]');
+    let pendingDeleteForm = null;
+
+    function updateBodyOverflow() {
+      const hasOpenModal = document.querySelector('.admin-modal.is-open');
+      document.body.style.overflow = hasOpenModal ? 'hidden' : '';
+    }
+
+    function openModal(modal) {
+      if (!modal) return;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      updateBodyOverflow();
+    }
+
+    function closeModal(modal) {
+      if (!modal) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      updateBodyOverflow();
+    }
+
+    function getDeleteCopy(kind, title) {
+      if (kind === 'point') {
+        return {
+          heading: 'Удалить точку?',
+          text: title
+            ? `Точка «${title}» будет удалена с карты без возможности восстановления.`
+            : 'Точка будет удалена с карты без возможности восстановления.',
+        };
+      }
+
+      return {
+        heading: 'Удалить заявку?',
+        text: title
+          ? `Заявка «${title}» будет удалена без возможности восстановления.`
+          : 'Заявка будет удалена без возможности восстановления.',
+      };
+    }
+
+    function openDeleteModal(button) {
+      const formId = button.dataset.adminDeleteForm;
+      const form = formId ? document.getElementById(formId) : null;
+
+      if (!form || !deleteModal) {
+        return;
+      }
+
+      const detailModal = button.closest('[data-admin-detail-modal]');
+      const title = detailModal?.querySelector('h2')?.textContent?.trim() || '';
+      const copy = getDeleteCopy(button.dataset.adminDeleteKind, title);
+
+      pendingDeleteForm = form;
+
+      if (deleteTitle) {
+        deleteTitle.textContent = copy.heading;
+      }
+
+      if (deleteText) {
+        deleteText.textContent = copy.text;
+      }
+
+      openModal(deleteModal);
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteForm = null;
+      closeModal(deleteModal);
+    }
+
+    if (addPointOpenButton) addPointOpenButton.addEventListener('click', () => openModal(addPointModal));
+    if (addPointCloseButton) addPointCloseButton.addEventListener('click', () => closeModal(addPointModal));
+
+    document.querySelectorAll('[data-admin-detail-open]').forEach((button) => {
+      button.addEventListener('click', () => {
+        openModal(document.querySelector(`[data-admin-detail-modal="${button.dataset.adminDetailOpen}"]`));
+      });
+    });
+
+    document.querySelectorAll('[data-admin-detail-close]').forEach((button) => {
+      button.addEventListener('click', () => {
+        closeModal(button.closest('.admin-modal'));
+      });
+    });
+
+    document.querySelectorAll('[data-admin-delete-open]').forEach((button) => {
+      button.addEventListener('click', () => openDeleteModal(button));
+    });
+
+    document.querySelectorAll('[data-admin-delete-close], [data-admin-delete-cancel]').forEach((button) => {
+      button.addEventListener('click', closeDeleteModal);
+    });
+
+    if (deleteConfirmButton) {
+      deleteConfirmButton.addEventListener('click', () => {
+        if (pendingDeleteForm) {
+          pendingDeleteForm.submit();
+        }
+      });
+    }
+
+    if (deleteModal) {
+      deleteModal.addEventListener('click', (event) => {
+        if (event.target === deleteModal) {
+          closeDeleteModal();
+        }
+      });
+    }
+
+    document.querySelectorAll('.admin-modal').forEach((modal) => {
+      if (modal === deleteModal) {
+        return;
+      }
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeModal(modal);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      if (deleteModal?.classList.contains('is-open')) {
+        closeDeleteModal();
+        return;
+      }
+
+      const openModalElement = document.querySelector('.admin-modal.is-open');
+
+      if (openModalElement) {
+        closeModal(openModalElement);
+      }
+    });
+  </script>
+</body>
+</html>

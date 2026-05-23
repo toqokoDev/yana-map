@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <script type="module" src="/js/pages/user-guide.js"></script>
+    <title>ЖКХ Кличев - Руководство пользователя</title>
+</head>
+<body class="user-guide-page">
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="guide-hero container">
+            <div class="guide-hero__inner">
+                
+                <div class="guide-hero__content">
+                    <h1 class="guide-hero__title">Освойтесь за минуту</h1>
+                    <p class="guide-hero__text">
+                        Карта, объекты, заявки — в одном месте. <br> Больше не нужно никуда звонить или ждать на линии. 
+                        Открывайте приложение и сообщайте о проблемах тогда, когда вам удобно.
+                    </p>
+                </div>
+
+                <div class="guide-hero__decor">
+                    <img src="/images/blue-flower-bg.svg" alt="" class="guide-hero__flower">
+                    <img src="/images/guide-hero-illustration.svg" alt="Иллюстрация руководства" class="guide-hero__image">
+                </div>
+
+            </div>
+        </section>
+
+        <section class="guide-steps container">
+            <h2 class="guide-steps__title">Как пользоваться сервисом?</h2>
+            
+            <div class="guide-steps__grid">
+                <div class="guide-card">
+                    <span class="guide-card__num">01</span>
+                    <h3 class="guide-card__title">Вход и регистрация</h3>
+                    <p class="guide-card__text">Зарегистрируйтесь, указав ФИО, email и пароль, или войдите в готовый аккаунт. Без авторизации карта тоже доступна — смотрите объекты и ищите адреса свободно. Аккаунт нужен только для подачи заявок.</p>
+                    <img src="/images/icons/step1.svg" alt="" class="guide-card__icon">
+                </div>
+
+                <div class="guide-card">
+                    <span class="guide-card__num">02</span>
+                    <h3 class="guide-card__title">Подача заявки</h3>
+                    <p class="guide-card__text">Нажмите «Оставить заявку», укажите тему и описание. Адрес можно вписать вручную или выбрать точку на карте — тогда он подставится автоматически. Фото необязательно, но помогает быстрее понять проблему.</p>
+                    <img src="/images/icons/step2.svg" alt="" class="guide-card__icon">
+                </div>
+
+                <div class="guide-card">
+                    <span class="guide-card__num">03</span>
+                    <h3 class="guide-card__title">Отслеживание статуса</h3>
+                    <p class="guide-card__text">Ваши обращения не теряются. В Личном кабинете видна вся история и актуальный статус каждого: от момента подачи до закрытия. Прозрачно и без лишних звонков.</p>
+                    <img src="/images/icons/step3.svg" alt="" class="guide-card__icon">
+                </div>
+            </div>
+        </section>
+
+        <section class="faq container">
+            <div class="faq__inner">
+                <h2 class="faq__title">Вопросы и ответы</h2>
+                
+                <div class="faq__list">
+                    <details class="faq__item">
+                        <summary class="faq__question">1. Приложение бесплатное?</summary>
+                        <div class="faq__answer">
+                            Абсолютно бесплатно и без рекламы. Весь функционал доступен сразу после регистрации, никаких пробных периодов и скрытых списаний.
+                        </div>
+                    </details>
+
+                    <details class="faq__item">
+                        <summary class="faq__question">2. Мои заявки видны другим жителям?</summary>
+                        <div class="faq__answer">
+                            Да, заявки отображаются на общей карте — это сделано для прозрачности. Пользователи видят, какие проблемы уже зафиксированы, и не дублируют обращения. Но ваши личные данные скрыты — видна только суть заявки и её статус.
+                        </div>
+                    </details>
+
+                    <details class="faq__item">
+                        <summary class="faq__question">3. Можно ли подать заявку с телефона?</summary>
+                        <div class="faq__answer">
+                            Да, приложение адаптировано под мобильные устройства. Карта, форма подачи и личный кабинет одинаково удобно работают и на компьютере, и на смартфоне.
+                        </div>
+                    </details>
+
+                    <details class="faq__item">
+                        <summary class="faq__question">4. Нужен ли интернет для работы?</summary>
+                        <div class="faq__answer">
+                            Интернет нужен, потому что карта и заявки подгружаются с сервера в реальном времени. Но само приложение лёгкое и работает даже при не очень быстром соединении.
+                        </div>
+                    </details>
+
+                    <details class="faq__item">
+                        <summary class="faq__question">5. Что происходит с заявкой после отправки?</summary>
+                        <div class="faq__answer">
+                            Ваше обращение не теряется. Сразу после отправки оно попадает к тому, кто отвечает за решение, а дальше — к исполнителю, который выезжает на место. Вы просто следите за статусом в личном кабинете и видите каждый этап: от приёма до завершения работ.
+                        </div>
+                    </details>
+
+                    <details class="faq__item">
+                        <summary class="faq__question">6. Сколько заявок можно подать?</summary>
+                        <div class="faq__answer">
+                            Одновременно можно иметь до <%= maxActiveRequests %> активных заявок (новые и «в работе»). Когда заявка выполнена или отклонена, лимит освобождается. Выполненные заявки ещё <%= mapVisibleDaysDone %> дней видны на карте, отклонённые — <%= mapVisibleDaysRejected %> дня, но в личном кабинете история сохраняется полностью.
+                        </div>
+                    </details>
+
+                    <details class="faq__item">
+                        <summary class="faq__question">7. Можно ли изменить заявку после отправки?</summary>
+                        <div class="faq__answer">
+                            Да, но только пока заявка новая или находится в работе. После выполнения или отклонения редактирование недоступно — это нужно, чтобы статус и содержание не менялись задним числом.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

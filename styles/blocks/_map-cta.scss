@@ -1,0 +1,175 @@
+// ==========================================
+// КЛЮЧЕВЫЕ КАДРЫ (KEYFRAMES)
+// ==========================================
+
+@keyframes fadeInUpCTA {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  70% {
+    transform: scale(1.05) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes softPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+// ==========================================
+// ОСНОВНЫЕ СТИЛИ
+// ==========================================
+
+.map-cta {
+  position: relative;
+  z-index: 10;
+  margin-top: 70px;
+  margin-bottom: -100px;
+  
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+  @include tablet {
+    margin-top: 40px;
+    margin-bottom: -60px;
+  }
+
+  &__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    min-height: 200px;
+    background-color: var(--color-light-blue);
+    border-radius: 15px;
+    padding: 30px 20px;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+    @include mobile {
+      padding: 25px 15px;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    
+    opacity: 0; // Скрыто
+
+    @include tablet { font-size: 24px; }
+    @include mobile { font-size: 18px; }
+  }
+
+  &__text {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    opacity: 0; // Скрыто
+    text-transform: uppercase;
+
+    @include tablet { font-size: 16px; margin-bottom: 20px; }
+    @include mobile { font-size: 13px; margin-bottom: 20px; }
+  }
+
+  &__button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 467px;
+    height: 55px;
+    background-color: #fff;
+    border-radius: 45px;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 0 20px 0 40px; 
+    
+    opacity: 0; // Скрыто
+
+    @include tablet {
+      max-width: 360px;
+    }
+
+    @include mobile {
+      height: 48px;
+      padding: 0 10px 0 35px;
+    }
+
+    @include hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+  }
+
+  &__button-icon {
+    position: absolute;
+    left: 18px;
+    width: 30px;
+    height: 30px;
+
+    @include mobile {
+      left: 12px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__button-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    color: #000;
+
+    @include tablet { font-size: 18px; }
+    @include mobile { font-size: 15px; }
+  }
+
+  // ==========================================
+  // ТРИГГЕР АНИМАЦИИ
+  // ==========================================
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+
+    .map-cta__title {
+      animation: fadeInUpCTA 0.8s ease-out 0.2s forwards;
+    }
+
+    .map-cta__text {
+      animation: fadeInUpCTA 0.8s ease-out 0.4s forwards;
+    }
+
+    .map-cta__button {
+      animation: popIn 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67) 0.6s forwards, 
+                 softPulse 2s infinite 1.5s; // Появляется и начинает пульсировать
+    }
+  }
+}

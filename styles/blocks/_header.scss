@@ -1,0 +1,260 @@
+// ==========================================
+// ОСНОВНЫЕ СТИЛИ ШАПКИ
+// ==========================================
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--color-light);
+  padding-top: 35px;
+  padding-bottom: 23px;
+
+  @include mobile {
+    padding-top: 10px;
+    padding-bottom: 15px;
+  }
+
+  // ==========================================
+  // ВНУТРЕННИЙ КОНТЕЙНЕР
+  // ==========================================
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--color-gray);
+    padding: 10px 20px;
+    border-radius: var(--border-radius-banner);
+    min-height: 90px;
+
+    @include mobile {
+      display: grid;
+      grid-template-areas:
+        "logo actions burger"
+        "search search search";
+      grid-template-columns: auto 1fr auto;
+      gap: 15px 10px;
+      padding: 12px;
+      min-height: auto;
+      align-items: center;
+    }
+  }
+
+  // ==========================================
+  // ЛОГОТИП
+  // ==========================================
+  &__logo {
+    flex-shrink: 0;
+    display: block;
+    width: 80px;
+    overflow: hidden;
+    transition: width 0.4s ease-in-out;
+    white-space: nowrap;
+
+    @include mobile-above {
+      @include hover {
+        width: 220px;
+      }
+    }
+
+    @include mobile {
+      grid-area: logo;
+      width: 60px;
+    }
+
+    img {
+      display: block;
+      max-width: none;
+      height: 70px;
+      object-fit: contain;
+      object-position: left;
+
+      @include mobile {
+        height: 50px;
+      }
+    }
+  }
+
+  // ==========================================
+  // БУРГЕР-КНОПКА
+  // ==========================================
+  &__burger {
+    @include reset-button;
+    @include flex-center;
+    width: 70px;
+    height: 70px;
+    background-color: var(--color-blue);
+    border-radius: var(--border-radius-menu-button);
+    transition: all 0.3s ease;
+
+    @include hover {
+      background-color: #88B9DE;
+      transform: translateY(-3px);
+    }
+
+    @include mobile {
+      grid-area: burger;
+      width: 50px;
+      height: 50px;
+    }
+
+    img {
+      width: 40px;
+      @include mobile {
+        width: 28px;
+      }
+    }
+  }
+
+  // ==========================================
+  // ПОИСК
+  // ==========================================
+  &__search-wrap {
+    position: relative;
+    flex-grow: 1;
+    min-width: 0;
+
+    @include mobile {
+      grid-area: search;
+    }
+  }
+
+  &__search {
+    width: 100%;
+  }
+
+  // ==========================================
+  // КНОПКИ ДЕЙСТВИЙ
+  // ==========================================
+  &__actions {
+    display: flex;
+    gap: 15px;
+
+    @include mobile {
+      grid-area: actions;
+      justify-content: center;
+      gap: 8px;
+    }
+  }
+}
+
+// ==========================================
+// ФОРМА ПОИСКА
+// ==========================================
+
+.search-form {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  padding-inline: 20px;
+  background-color: var(--color-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-button);
+  transition: all 0.3s ease;
+
+  &:focus-within {
+    border-color: #88B9DE;
+    box-shadow: 0 0 8px rgba(136, 185, 222, 0.3);
+  }
+
+  @include mobile {
+    height: 50px;
+    padding-inline: 15px;
+  }
+
+  // ==========================================
+  // КНОПКА ПОИСКА
+  // ==========================================
+  &__button {
+    @include reset-button;
+    @include flex-center;
+    padding-right: 20px;
+    margin-right: 20px;
+    border-right: 3px solid var(--border-color);
+    height: 40px;
+
+    img {
+      width: 40px;
+      @include mobile {
+        width: 24px;
+      }
+    }
+
+    @include mobile {
+      padding-right: 12px;
+      margin-right: 12px;
+      height: 30px;
+    }
+  }
+
+  // ==========================================
+  // ПОЛЕ ВВОДА
+  // ==========================================
+  &__input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-weight: 500;
+    @include fluid-text(24, 16);
+
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+  }
+}
+
+.header-search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: min(360px, 50vh);
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-button);
+  background-color: var(--color-light);
+  box-shadow: 0 12px 28px rgba(31, 53, 86, 0.14);
+
+  &:empty {
+    display: none;
+  }
+}
+
+// ==========================================
+// КНОПКА С ИКОНКОЙ
+// ==========================================
+
+.icon-button {
+  @include reset-button;
+  @include flex-center;
+  width: 70px;
+  height: 70px;
+  background-color: var(--color-blue);
+  border-radius: var(--border-radius-menu-button);
+  transition: all 0.3s ease;
+
+  @include hover {
+    background-color: #88B9DE;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(136, 185, 222, 0.4);
+  }
+
+  @include mobile {
+    width: 50px;
+    height: 50px;
+    &:active {
+      transform: none;
+    }
+  }
+
+  img {
+    width: 40px;
+    @include mobile {
+      width: 28px;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div class="request-modal request-view-modal" id="request-view-modal" aria-hidden="true">
+  <div class="request-modal__dialog request-view-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="request-view-modal-title">
+    <button class="request-modal__close request-view-modal__close" type="button" aria-label="Закрыть">&times;</button>
+    <div class="request-view-modal__head">
+      <h2 class="request-view-modal__title" id="request-view-modal-title"></h2>
+      <span class="request-status" id="request-view-modal-status"></span>
+    </div>
+    <dl class="request-view-modal__details">
+      <div class="request-view-modal__detail">
+        <dt>Описание</dt>
+        <dd id="request-view-modal-description"></dd>
+      </div>
+      <div class="request-view-modal__detail" id="request-view-modal-address-row" hidden>
+        <dt>Адрес</dt>
+        <dd id="request-view-modal-address"></dd>
+      </div>
+      <div class="request-view-modal__detail">
+        <dt>Дата</dt>
+        <dd id="request-view-modal-date"></dd>
+      </div>
+      <div class="request-view-modal__detail" id="request-view-modal-author-row" hidden>
+        <dt>Автор</dt>
+        <dd id="request-view-modal-author"></dd>
+      </div>
+    </dl>
+    <div class="request-view-modal__photo-wrap" id="request-view-modal-photo-wrap" hidden>
+      <img class="request-view-modal__photo" id="request-view-modal-photo" alt="Фото заявки">
+    </div>
+    <p class="request-view-modal__no-photo" id="request-view-modal-no-photo" hidden>Фото не приложено</p>
+  </div>
+</div>

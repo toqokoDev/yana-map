@@ -1,0 +1,220 @@
+// ==========================================
+// СТИЛИ СТРАНИЦЫ КАРТЫ И МАКЕТА
+// ==========================================
+
+.map-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .header {
+    padding-bottom: 18px; 
+  }
+}
+
+.map-main {
+  flex-grow: 1;
+  padding-top: 0px;
+  padding-bottom: 35px;
+
+  &__container {
+    height: 100%;
+    position: relative;
+  }
+
+  @include mobile {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+.map-layout {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+// ==========================================
+// ЛЕВАЯ КОЛОНКА (Карта + Кнопка заявки)
+// ==========================================
+.map-left-column {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 489px;
+  border-radius: var(--border-radius-banner);
+  overflow: hidden;
+  border: 1px solid #828282; 
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  background-color: #f0ede6;
+
+  [class*="ymaps-2"][class*="-copyright"] {
+    display: none !important;
+  }
+}
+
+// Кнопка "Оставить заявку" под картой
+.map-request-btn {
+  @include reset-button;
+  
+  align-self: flex-start; 
+  
+  display: inline-flex; 
+  align-items: center;
+  gap: 12px;
+  
+  @include fluid-text(24, 16); 
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  
+  // Базовые размеры
+  height: 55px;
+  padding: 0 32px;
+  background-color: var(--color-dark-blue);
+  color: #fff;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+    
+    @include tablet {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  @include hover {
+    background-color: var(--color-light-blue);
+    transform: translateY(-2px);
+  }
+
+  // ==========================================
+  // АККУРАТНОЕ МАСШТАБИРОВАНИЕ
+  // ==========================================
+  
+  @include tablet {
+    height: 48px;
+    padding: 0 24px;
+    align-self: flex-start;
+  }
+
+  @include mobile {
+    // Миниатюрная версия для телефона
+    height: 42px;
+    padding: 0 20px;
+    gap: 8px;
+    
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// ==========================================
+// НОВАЯ КНОПКА-ВКЛАДКА (Pull-Tab)
+// ==========================================
+.map-sidebar-toggle {
+    display: none; // Скрыта на десктопе по умолчанию
+
+    @include tablet {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        
+        width: 30px;
+        height: 60px;
+        background-color: #ffffff;
+        
+        border-radius: 10px 0 0 10px; 
+        
+        border: 1px solid #828282;
+        border-right: none;
+        
+        cursor: pointer;
+        
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+        
+        transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.3s ease;
+
+        // Эффект при наведении
+        @include hover {
+            background-color: #fcfcfc;
+        }
+
+        // Эффект при клике
+        &:active {
+            transform: translateY(-50%) scale(0.96);
+        }
+
+        // ==========================================
+        // Иконка-стрелочка
+        // ==========================================
+        
+        color: transparent;
+        font-size: 0;
+        
+        &::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-left: 2px solid var(--color-dark-blue);
+            border-bottom: 2px solid var(--color-dark-blue);
+            transform: rotate(45deg);
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+            
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='16' viewBox='0 0 10 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3%3Cpath d='M8.5 1.5L2 8L8.5 14.5' stroke='%23333333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+    }
+}
+
+.map-sidebar.is-open ~ .map-left-column .map-sidebar-toggle::before {
+    transform: rotate(-135deg); // Поворот в >
+}
+
+// ==========================================
+// ЛОГИКА ПОВЕДЕНИЯ КНОПКИ ПРИ ОТКРЫТОМ САЙДБАРЕ
+// ==========================================
+.map-sidebar.is-open + .map-sidebar-toggle {
+    @include tablet {
+        transform: translateY(-50%) translateX(-400px);
+
+        @include mobile {
+            display: none;
+        }
+        
+        &::before {
+            transform: rotate(180deg);
+        }
+    }
+}

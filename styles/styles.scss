@@ -1,0 +1,21 @@
+@import 
+    'normalize', 
+    'fonts', 
+    'mixins', 
+    'media', 
+    'variables', 
+    'utils', 
+    'globals';
+
+@import
+    'blocks/header',
+    'blocks/promo',
+    'blocks/about',
+    'blocks/process',
+    'blocks/map-cta',
+    'blocks/footer',
+    'blocks/map',
+    'blocks/sidebar',
+    'blocks/guide-hero',
+    'blocks/guide-steps-cards',
+    'blocks/guide-faq';

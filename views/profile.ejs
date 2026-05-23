@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <title><%= pageTitle %> - ЖКХ Кличев</title>
+</head>
+<body class="auth-page profile-page">
+  <%- include('partials/header', { authHeader: true }) %>
+
+  <main class="auth-main auth-main--profile container">
+    <section class="auth-card profile-card profile-card--wide">
+      <div class="profile-layout">
+        <aside class="profile-layout__aside">
+          <h1 class="auth-card__title">Личный кабинет</h1>
+          <p class="auth-card__text">Вы вошли в систему.</p>
+
+          <dl class="profile-list">
+            <div class="profile-list__item">
+              <dt>ФИО</dt>
+              <dd><%= currentUser.full_name %></dd>
+            </div>
+            <div class="profile-list__item">
+              <dt>Email</dt>
+              <dd><%= currentUser.email %></dd>
+            </div>
+            <div class="profile-list__item">
+              <dt>Дата регистрации</dt>
+              <dd><%= new Date(currentUser.created_at).toLocaleDateString('ru-RU') %></dd>
+            </div>
+          </dl>
+
+          <form class="profile-layout__logout" action="/logout" method="post">
+            <button class="auth-form__button auth-form__button--secondary" type="submit">Выйти</button>
+          </form>
+        </aside>
+
+        <div class="profile-layout__requests profile-requests">
+          <div class="profile-requests__head">
+            <h2 class="profile-requests__title">Мои заявки</h2>
+          </div>
+
+          <div class="profile-requests__scroll">
+            <% if (!requests || requests.length === 0) { %>
+              <p class="profile-requests__empty">У вас пока нет заявок. Их можно создать на странице карты.</p>
+            <% } else { %>
+              <% const newRequests = requests.filter((item) => item.status === 'new'); %>
+              <% const inProgressRequests = requests.filter((item) => item.status === 'in_progress'); %>
+              <% const doneRequests = requests.filter((item) => item.status === 'done'); %>
+              <% const rejectedRequests = requests.filter((item) => item.status === 'rejected'); %>
+
+              <% if (newRequests.length > 0) { %>
+                <h3 class="profile-requests__group-title">Новые</h3>
+                <div class="profile-requests__list">
+                  <% newRequests.forEach((request) => { %>
+                    <%- include('partials/request-card', { request }) %>
+                  <% }) %>
+                </div>
+              <% } %>
+
+              <% if (inProgressRequests.length > 0) { %>
+                <h3 class="profile-requests__group-title">В работе</h3>
+                <div class="profile-requests__list">
+                  <% inProgressRequests.forEach((request) => { %>
+                    <%- include('partials/request-card', { request }) %>
+                  <% }) %>
+                </div>
+              <% } %>
+
+              <% if (doneRequests.length > 0) { %>
+                <h3 class="profile-requests__group-title">Выполненные</h3>
+                <div class="profile-requests__list">
+                  <% doneRequests.forEach((request) => { %>
+                    <%- include('partials/request-card', { request }) %>
+                  <% }) %>
+                </div>
+              <% } %>
+
+              <% if (rejectedRequests.length > 0) { %>
+                <h3 class="profile-requests__group-title">Отклонённые</h3>
+                <div class="profile-requests__list">
+                  <% rejectedRequests.forEach((request) => { %>
+                    <%- include('partials/request-card', { request }) %>
+                  <% }) %>
+                </div>
+              <% } %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/request-view-modal') %>
+  <script id="profile-requests-data" type="application/json"><%- typeof requestsJson !== 'undefined' ? requestsJson : '[]' %></script>
+  <script type="module" src="/js/pages/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <title><%= pageTitle %> - ЖКХ Кличев</title>
+</head>
+<body class="auth-page">
+  <%- include('partials/header', { authHeader: true, currentUser: typeof currentUser !== 'undefined' ? currentUser : null }) %>
+
+  <main class="auth-main container">
+    <section class="auth-card">
+      <h1 class="auth-card__title">Регистрация</h1>
+      <p class="auth-card__text">Создайте аккаунт для доступа к личному кабинету.</p>
+
+      <% if (error) { %>
+        <p class="auth-card__error"><%= error %></p>
+      <% } %>
+
+      <form class="auth-form" action="/register" method="post">
+        <label class="auth-form__label">
+          ФИО
+          <input class="auth-form__input" type="text" name="fullName" value="<%= formData.fullName || '' %>" required>
+        </label>
+
+        <label class="auth-form__label">
+          Email
+          <input class="auth-form__input" type="email" name="email" value="<%= formData.email || '' %>" required>
+        </label>
+
+        <label class="auth-form__label">
+          Пароль
+          <input class="auth-form__input" type="password" name="password" minlength="6" required>
+        </label>
+
+        <label class="auth-form__label">
+          Повторите пароль
+          <input class="auth-form__input" type="password" name="passwordConfirm" minlength="6" required>
+        </label>
+
+        <button class="auth-form__button" type="submit">Зарегистрироваться</button>
+      </form>
+
+      <p class="auth-card__link">Уже есть аккаунт? <a href="/login">Войти</a></p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css">
+    
+    <!-- Подключаем API Яндекс Карт -->
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script type="module" src="/js/pages/map.js"></script>
+    <title>ЖКХ Кличев - Интерактивная карта</title>
+</head>
+<body class="map-page">
+    <%- include('partials/header') %>
+
+    <main class="map-main">
+        <div class="container map-main__container">
+            <div class="map-layout">
+                
+                <!-- Левая колонка: Карта + Кнопка снизу -->
+                <div class="map-left-column">
+                    <div class="map-wrapper" id="map-wrapper">
+                        <div id="map" class="map-container">
+                            <button class="map-sidebar-toggle" type="button">Слои и заявки</button>
+                        </div>
+                    </div>
+                    <button class="map-request-btn" type="button">
+                        <img src="/images/icons/ChatDots.svg" alt="">
+                        <span>Оставить заявку</span>
+                    </button>
+                </div>
+
+                <!-- Правая колонка: Боковая панель -->
+                <aside class="map-sidebar">
+                    <button class="map-sidebar__close" type="button" aria-label="Закрыть меню">&times;</button>
+                    <div class="map-sidebar__tabs">
+                        <div class="map-sidebar__tabs-inner">
+                            <button class="map-sidebar__tab active" data-tab="layers" type="button">Слои</button>
+                            <button class="map-sidebar__tab" data-tab="requests" type="button">Заявки</button>
+                        </div>
+                    </div>
+
+                    <div class="map-sidebar__content-wrapper">
+                        <div class="map-sidebar__content" id="sidebar-scroll">
+                            
+                            <!-- === ВКЛАДКА "СЛОИ" === -->
+                            <div id="tab-layers" class="tab-pane active">
+                                
+                                <!-- Блок Информации (Исправлен цвет заголовка) -->
+                                <div class="sidebar-info">
+                                    <h3 class="sidebar-info__title">
+                                        <img src="/images/icons/InfoCircle.svg" alt="" onerror="this.style.display='none'"> 
+                                        <span>Информация</span>
+                                    </h3>
+                                    <!-- Изменен цвет фона -->
+                                    <div class="sidebar-info__card">
+                                        <h4>Выберите объект</h4>
+                                        <p>Кликните на территорию или объект на карте для просмотра информации.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Поиск по объектам (Стиль перенесен из шапки) -->
+                                <div class="sidebar-search">
+                                    <button class="sidebar-search__button" type="button">
+                                        <img src="/images/icons/Search.svg" alt="Поиск">
+                                    </button>
+                                    <input class="sidebar-search__input" type="search" placeholder="Поиск объектов...">
+                                </div>
+                                <div class="sidebar-search-results" id="sidebar-search-results"></div>
+
+                                <!-- Группа 1 (Зона ответственности) -->
+                                <div class="layer-group">
+                                    <h3 class="layer-group__title">
+                                        <img src="/images/icons/pin1.svg" alt="">
+                                        <span>Зона ответственности</span>
+                                    </h3>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox" checked>
+                                        <span class="layer-item__text">Территории ЖКХ</span>
+                                    </label>
+                                </div>
+
+                                <!-- Группа 2 -->
+                                <div class="layer-group">
+                                    <h3 class="layer-group__title">
+                                        <img src="/images/icons/pin2.svg" alt="">
+                                        <span>Инженерная инфраструктура</span>
+                                    </h3>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Водопроводные колодцы</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Тепловые камеры и ЦТП</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Трансформаторные подстанции</span>
+                                    </label>
+                                </div>
+
+                                <!-- Группа 3 -->
+                                <div class="layer-group">
+                                    <h3 class="layer-group__title">
+                                        <img src="/images/icons/pin3.svg" alt="">
+                                        <span>Хозяйственная инфраструктура</span>
+                                    </h3>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Гаражи и стоянки техники</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Склады и мастерские</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Общежития и жилой фонд</span>
+                                    </label>
+                                </div>
+
+                                <!-- Группа 4 -->
+                                <div class="layer-group">
+                                    <h3 class="layer-group__title">
+                                        <img src="/images/icons/pin4.svg" alt="">
+                                        <span>Санитарное содержание</span>
+                                    </h3>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Площадки для ТКО</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Площадки для КГО</span>
+                                    </label>
+                                </div>
+
+                                <!-- Группа 5 -->
+                                <div class="layer-group">
+                                    <h3 class="layer-group__title">
+                                        <img src="/images/icons/pin5.svg" alt="">
+                                        <span>Благоустройство и досуг</span>
+                                    </h3>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Детские игровые площадки</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Спортивные площадки / Воркаут</span>
+                                    </label>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Памятники, стелы, МАФ</span>
+                                    </label>
+                                </div>
+
+                                <!-- Группа 6 -->
+                                <div class="layer-group">
+                                    <h3 class="layer-group__title">
+                                        <img src="/images/icons/pin6.svg" alt="">
+                                        <span>Озеленение</span>
+                                    </h3>
+                                    <label class="layer-item">
+                                        <input type="checkbox" class="layer-item__checkbox">
+                                        <span class="layer-item__text">Зеленые зоны</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- === ВКЛАДКА "ЗАЯВКИ" === -->
+                            <div id="tab-requests" class="tab-pane">
+                                <div class="requests-list" id="requests-list">
+                                    <div class="requests-placeholder">
+                                        <h4>Загрузка заявок...</h4>
+                                        <p>Список заявок появится через несколько секунд.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="map-sidebar__more" id="sidebar-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <div class="sidebar-overlay"></div>
+    <%- include('partials/request-view-modal') %>
+    <%- include('partials/request-delete-modal') %>
+
+    <div class="request-modal" id="request-modal" aria-hidden="true">
+        <div class="request-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="request-modal-title">
+            <button class="request-modal__close" type="button" aria-label="Закрыть форму">&times;</button>
+            <h2 class="request-modal__title" id="request-modal-title">Оставить заявку</h2>
+            <p class="request-modal__text">Опишите проблему. Адрес можно вписать вручную или выбрать точку на карте — тогда он подставится автоматически.</p>
+
+            <form class="request-form" id="request-form" enctype="multipart/form-data">
+                <div class="request-form__layout">
+                    <div class="request-form__main">
+                        <label class="request-form__label">
+                            Тема заявки
+                            <input class="request-form__input" type="text" name="title" required>
+                        </label>
+
+                        <label class="request-form__label">
+                            Адрес
+                            <input class="request-form__input" type="text" name="address" placeholder="Например: ул. Ленинская, 51">
+                        </label>
+
+                        <label class="request-form__label">
+                            Описание
+                            <textarea class="request-form__textarea" name="description" rows="4" required></textarea>
+                        </label>
+
+                        <div class="request-form__coords">
+                            <span id="request-coordinates">Точка на карте не выбрана</span>
+                            <button class="request-form__map-button" type="button" id="request-pick-point">Выбрать точку на карте</button>
+                        </div>
+
+                        <input type="hidden" name="removePhoto" value="0">
+                        <input type="hidden" name="lat">
+                        <input type="hidden" name="lon">
+                        <input type="hidden" name="requestId">
+
+                        <p class="request-form__message" id="request-form-message"></p>
+                        <button class="request-form__submit" type="submit">Отправить заявку</button>
+                    </div>
+
+                    <div class="request-form__photo-column">
+                        <p class="request-form__photo-label">Фото <span>(необязательно)</span></p>
+                        <div class="request-form__photo-upload" id="request-photo-upload">
+                            <input class="request-form__file-input visually-hidden" type="file" id="request-photo-input" name="photo" accept="image/jpeg,image/png,image/webp">
+
+                            <div class="request-form__photo-empty" id="request-photo-empty">
+                                <span class="request-form__photo-icon" aria-hidden="true">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 16L8.586 11.414C9.367 10.633 10.633 10.633 11.414 11.414L16 16M14 14L15.586 12.414C16.367 11.633 17.633 11.633 18.414 12.414L20 14M14 8H14.01M6 20H18C19.105 20 20 19.105 20 18V6C20 4.895 19.105 4 18 4H6C4.895 4 4 4.895 4 6V18C4 19.105 4.895 20 6 20Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                <p class="request-form__photo-text">Перетащите фото сюда</p>
+                                <p class="request-form__photo-hint">JPG, PNG или WebP</p>
+                                <button class="request-form__photo-choose" type="button" id="request-photo-choose">Выбрать файл</button>
+                            </div>
+
+                            <div class="request-form__photo-selected" id="request-photo-selected" hidden>
+                                <img id="request-photo-image" alt="Фото заявки">
+                                <button class="request-form__photo-remove" type="button" id="request-photo-remove">Удалить фото</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
