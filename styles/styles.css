@@ -2187,6 +2187,16 @@ h4, .h4 {
   height: 100%;
   background-color: #f0ede6;
 }
+.map-container svg *[fill] {
+  fill: revert;
+}
+.map-container svg *[stroke] {
+  stroke: revert;
+}
+.map-container svg * {
+  -webkit-transition-property: none;
+  transition-property: none;
+}
 .map-container [class*=ymaps-2][class*=-copyright] {
   display: none !important;
 }

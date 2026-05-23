@@ -63,6 +63,19 @@
   height: 100%;
   background-color: #f0ede6;
 
+  // Глобальный reset svg { fill: currentColor } ломает полигоны Яндекс.Карт (чёрная заливка).
+  svg *[fill] {
+    fill: revert;
+  }
+
+  svg *[stroke] {
+    stroke: revert;
+  }
+
+  svg * {
+    transition-property: none;
+  }
+
   [class*="ymaps-2"][class*="-copyright"] {
     display: none !important;
   }

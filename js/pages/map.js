@@ -24,8 +24,7 @@ let selectedSearchObjectId = null;
 let selectedTerritoryPolygon = null;
 
 const TERRITORY_POLYGON_STYLE = {
-    fillColor: '#2D9CDB',
-    fillOpacity: 0,
+    fill: false,
     strokeColor: '#2D9CDB',
     strokeOpacity: 0.85,
     strokeWidth: 3,
@@ -39,8 +38,7 @@ function applyTerritoryPolygonStyle(polygon, state = 'default') {
 
     if (state === 'selected') {
         polygon.options.set({
-            fillColor: '#0B74D1',
-            fillOpacity: 0,
+            fill: false,
             strokeColor: '#0B74D1',
             strokeOpacity: 1,
             strokeWidth: 5,
@@ -50,8 +48,7 @@ function applyTerritoryPolygonStyle(polygon, state = 'default') {
 
     if (state === 'hover') {
         polygon.options.set({
-            fillColor: '#2D9CDB',
-            fillOpacity: 0,
+            fill: false,
             strokeColor: '#2D9CDB',
             strokeOpacity: 1,
             strokeWidth: 4,
